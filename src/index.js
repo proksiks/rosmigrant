@@ -50,7 +50,7 @@ function checkForm() {
   const name = nameInput.value.trim();
   const phone = phoneInput.value.replace(/\D/g, "");
   document.getElementById("btn5").disabled = !(name && phone.length >= 11);
-  
+
   // Убираем ошибку при заполнении
   if (name) {
     nameInput.classList.remove("quiz-input--error");
@@ -162,17 +162,17 @@ function prevStep() {
     document
       .querySelector(`.quiz-step[data-step="${currentStep}"]`)
       .classList.add("active");
-    
+
     // Сбрасываем поля текущего шага (на который вернулись)
     resetStepFields(currentStep);
-    
+
     // Также сбрасываем поля формы на шаге 5 если вернулись назад
     if (currentStep < 5) {
       document.getElementById("userName").value = "";
       document.getElementById("userPhone").value = "";
       document.getElementById("btn5").disabled = true;
     }
-    
+
     updateProgress();
   }
 }
@@ -185,30 +185,35 @@ async function submitQuiz() {
   // Защита: если кнопка отключена - выходим
   const btn5 = document.getElementById("btn5");
   if (btn5.disabled) return;
-  
+
   // Защита от повторной отправки
   if (isSubmitting) return;
-  
+
   const nameInput = document.getElementById("userName");
   const phoneInput = document.getElementById("userPhone");
   const name = nameInput.value.trim();
   const phone = phoneInput.value.replace(/\D/g, "");
-  
+
   // Дополнительная проверка валидности
   if (!name || phone.length < 11) {
     return;
   }
-  
+
+  // Отправка цели в Яндекс.Метрику
+  if (typeof ym !== "undefined") {
+    ym(107162014, 'reachGoal', 'order');
+  }
+
   isSubmitting = true;
   btn5.disabled = true;
   btn5.textContent = "Отправка...";
-  
+
   quizData.name = name;
   quizData.phone = phoneInput.value;
   quizData.country = document.getElementById("userCountry").value;
 
   const success = await sendToTelegram(quizData);
-  
+
   isSubmitting = false;
 
   if (!success) {
