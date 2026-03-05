@@ -1,13 +1,18 @@
 let currentStep = 1;
-const totalSteps = 4;
+const totalSteps = 5;
 const quizData = {};
+let isSubmitting = false;
 
 function checkStep1() {
   const country = document.getElementById("userCountry").value.trim();
+  document.getElementById("btn1").disabled = !country;
+}
+
+function checkStep2() {
   const selectedRegion = document.querySelector(
-    '.quiz-step[data-step="1"] .quiz-option.selected',
+    '.quiz-step[data-step="2"] .quiz-option.selected',
   );
-  document.getElementById("btn1").disabled = !(country && selectedRegion);
+  document.getElementById("btn2").disabled = !selectedRegion;
 }
 
 function selectOption(element, step) {
@@ -18,12 +23,12 @@ function selectOption(element, step) {
   element.classList.add("selected");
   quizData["step" + step] = element.dataset.value;
 
-  if (step === 1) {
-    checkStep1();
-  } else if (step === 2) {
-    document.getElementById("btn2").disabled = false;
+  if (step === 2) {
+    checkStep2();
   } else if (step === 3) {
     document.getElementById("btn3").disabled = false;
+  } else if (step === 4) {
+    document.getElementById("btn4").disabled = false;
   }
 }
 
@@ -40,9 +45,19 @@ function formatPhone(input) {
 }
 
 function checkForm() {
-  const name = document.getElementById("userName").value.trim();
-  const phone = document.getElementById("userPhone").value.replace(/\D/g, "");
-  document.getElementById("btn4").disabled = !(name && phone.length >= 11);
+  const nameInput = document.getElementById("userName");
+  const phoneInput = document.getElementById("userPhone");
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.replace(/\D/g, "");
+  document.getElementById("btn5").disabled = !(name && phone.length >= 11);
+  
+  // Убираем ошибку при заполнении
+  if (name) {
+    nameInput.classList.remove("quiz-input--error");
+  }
+  if (phone.length >= 11) {
+    phoneInput.classList.remove("quiz-input--error");
+  }
 }
 
 function updateProgress() {
@@ -51,16 +66,16 @@ function updateProgress() {
 }
 
 function nextStep() {
-  if (currentStep === 1) {
-    const region = quizData["step1"];
+  if (currentStep === 2) {
+    const region = quizData["step2"];
     if (region === "Другой регион") {
       showErrorStep("error-step-location");
       return;
     }
   }
 
-  if (currentStep === 3) {
-    const service = quizData["step3"];
+  if (currentStep === 4) {
+    const service = quizData["step4"];
     if (service === "Временная регистрация") {
       showErrorStep("error-step-registration");
       return;
@@ -109,9 +124,33 @@ function restartQuiz() {
   document.getElementById("btn2").disabled = true;
   document.getElementById("btn3").disabled = true;
   document.getElementById("btn4").disabled = true;
+  document.getElementById("btn5").disabled = true;
 
   document.querySelector('.quiz-step[data-step="1"]').classList.add("active");
   updateProgress();
+}
+
+function resetStepFields(step) {
+  // Сбрасываем выбор при переходе назад
+  const stepEl = document.querySelector(`.quiz-step[data-step="${step}"]`);
+  if (stepEl) {
+    stepEl
+      .querySelectorAll(".quiz-option.selected")
+      .forEach((opt) => opt.classList.remove("selected"));
+  }
+  delete quizData["step" + step];
+
+  // Сбрасываем кнопки
+  if (step === 1) {
+    document.getElementById("userCountry").value = "";
+    document.getElementById("btn1").disabled = true;
+  } else if (step === 2) {
+    document.getElementById("btn2").disabled = true;
+  } else if (step === 3) {
+    document.getElementById("btn3").disabled = true;
+  } else if (step === 4) {
+    document.getElementById("btn4").disabled = true;
+  }
 }
 
 function prevStep() {
@@ -123,6 +162,17 @@ function prevStep() {
     document
       .querySelector(`.quiz-step[data-step="${currentStep}"]`)
       .classList.add("active");
+    
+    // Сбрасываем поля текущего шага (на который вернулись)
+    resetStepFields(currentStep);
+    
+    // Также сбрасываем поля формы на шаге 5 если вернулись назад
+    if (currentStep < 5) {
+      document.getElementById("userName").value = "";
+      document.getElementById("userPhone").value = "";
+      document.getElementById("btn5").disabled = true;
+    }
+    
     updateProgress();
   }
 }
@@ -132,16 +182,38 @@ function scrollToQuiz() {
 }
 
 async function submitQuiz() {
-  const name = document.getElementById("userName").value;
-  const phone = document.getElementById("userPhone").value;
-  const country = document.getElementById("userCountry").value;
+  // Защита: если кнопка отключена - выходим
+  const btn5 = document.getElementById("btn5");
+  if (btn5.disabled) return;
+  
+  // Защита от повторной отправки
+  if (isSubmitting) return;
+  
+  const nameInput = document.getElementById("userName");
+  const phoneInput = document.getElementById("userPhone");
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.replace(/\D/g, "");
+  
+  // Дополнительная проверка валидности
+  if (!name || phone.length < 11) {
+    return;
+  }
+  
+  isSubmitting = true;
+  btn5.disabled = true;
+  btn5.textContent = "Отправка...";
+  
   quizData.name = name;
-  quizData.phone = phone;
-  quizData.country = country;
+  quizData.phone = phoneInput.value;
+  quizData.country = document.getElementById("userCountry").value;
 
   const success = await sendToTelegram(quizData);
+  
+  isSubmitting = false;
 
   if (!success) {
+    btn5.disabled = false;
+    btn5.textContent = "Получить консультацию";
     alert(
       "Ошибка отправки! Пожалуйста, позвоните нам по телефону 8 (800) 123-45-67",
     );
@@ -164,7 +236,7 @@ async function submitQuiz() {
 async function sendToTelegram(data) {
   const BOT_TOKEN = "YOUR_BOT_TOKEN";
   const CHAT_ID = "YOUR_CHAT_ID";
-  const message = `🆕 <b>Новая заявка с сайта!</b>\n\n👤 <b>Имя:</b> ${data.name}\n📞 <b>Телефон:</b> ${data.phone}\n🌍 <b>Гражданство:</b> ${data.step1 || "-"}\n📄 <b>Документ:</b> ${data.step2 || "-"}\n\n⏱ Перезвонить в течение 30 минут!`;
+  const message = `🆕 <b>Новая заявка с сайта!</b>\n\n👤 <b>Имя:</b> ${data.name}\n📞 <b>Телефон:</b> ${data.phone}\n🌍 <b>Гражданство:</b> ${data.step1 || "-"}\n📍 <b>Регион:</b> ${data.step2 || "-"}\n👨‍👩‍👧 <b>Родственники:</b> ${data.step3 || "-"}\n📄 <b>Услуга:</b> ${data.step4 || "-"}\n\n⏱ Перезвонить в течение 30 минут!`;
 
   try {
     const response = await fetch(

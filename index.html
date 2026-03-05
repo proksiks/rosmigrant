@@ -116,34 +116,22 @@
 
       <div class="quiz-container">
         <div class="quiz-progress">
-          <div class="quiz-progress-bar" id="progressBar" style="width: 25%"></div>
+          <div class="quiz-progress-bar" id="progressBar" style="width: 20%"></div>
         </div>
         <div class="quiz-content">
           <div class="quiz-step active" data-step="1">
             <div class="quiz-step-header">
-              <span class="step-indicator">Шаг <span>1</span> из 4</span>
+              <span class="step-indicator">Шаг <span>1</span> из 5</span>
             </div>
             <h3 class="quiz-question">
               Гражданином какой страны вы являетесь?
             </h3>
             <p class="quiz-subtitle">
-              Введите вашу страну и выберите регион
+              Введите вашу страну гражданства
             </p>
             <label class="quiz-label">Страна гражданства</label>
             <input type="text" class="quiz-input" id="userCountry"
               placeholder="Например: Узбекистан, Таджикистан, Казахстан..." oninput="checkStep1()" />
-            <label class="quiz-label quiz-label--top">В каком регионе вы находитесь?</label>
-            <div class="quiz-options quiz-options--single">
-              <div class="quiz-option" data-value="Москва" onclick="selectOption(this, 1)">
-                <span class="quiz-option-text">Москва</span>
-              </div>
-              <div class="quiz-option" data-value="Московская область" onclick="selectOption(this, 1)">
-                <span class="quiz-option-text">Московская область</span>
-              </div>
-              <div class="quiz-option" data-value="Другой регион" onclick="selectOption(this, 1)">
-                <span class="quiz-option-text">Другой регион</span>
-              </div>
-            </div>
             <div class="quiz-buttons">
               <button class="quiz-btn quiz-btn-next" id="btn1" onclick="nextStep()" disabled>
                 Далее →
@@ -153,26 +141,23 @@
 
           <div class="quiz-step" data-step="2">
             <div class="quiz-step-header">
-              <span class="step-indicator">Шаг <span>2</span> из 4</span>
+              <span class="step-indicator">Шаг <span>2</span> из 5</span>
             </div>
             <h3 class="quiz-question">
-              Есть ли у вас близкие родственники, являющиеся гражданами РФ?
+              В каком регионе вы находитесь?
             </h3>
             <p class="quiz-subtitle">
-              Это поможет нам подобрать оптимальную программу
+              Выберите ваш регион
             </p>
-            <div class="quiz-options">
-              <div class="quiz-option" data-value="Да. Муж/Жена" onclick="selectOption(this, 2)">
-                <span class="quiz-option-text">Да. Муж/Жена</span>
+            <div class="quiz-options quiz-options--single">
+              <div class="quiz-option" data-value="Москва" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Москва</span>
               </div>
-              <div class="quiz-option" data-value="Да. Родители" onclick="selectOption(this, 2)">
-                <span class="quiz-option-text">Да. Родители</span>
+              <div class="quiz-option" data-value="Московская область" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Московская область</span>
               </div>
-              <div class="quiz-option" data-value="Да. Другие родственники" onclick="selectOption(this, 2)">
-                <span class="quiz-option-text">Да. Другие родственники</span>
-              </div>
-              <div class="quiz-option" data-value="Нет" onclick="selectOption(this, 2)">
-                <span class="quiz-option-text">Нет</span>
+              <div class="quiz-option" data-value="Другой регион" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Другой регион</span>
               </div>
             </div>
             <div class="quiz-buttons">
@@ -187,38 +172,26 @@
 
           <div class="quiz-step" data-step="3">
             <div class="quiz-step-header">
-              <span class="step-indicator">Шаг <span>3</span> из 4</span>
+              <span class="step-indicator">Шаг <span>3</span> из 5</span>
             </div>
             <h3 class="quiz-question">
-              Какой вид документов или помощь Вам нужна?
+              Есть ли у вас близкие родственники, являющиеся гражданами РФ?
             </h3>
             <p class="quiz-subtitle">
-              Выберите услугу из списка
+              Это поможет нам подобрать оптимальную программу
             </p>
             <div class="quiz-options">
-              <div class="quiz-option" data-value="Получение гражданства РФ" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Получение гражданства РФ</span>
+              <div class="quiz-option" data-value="Да. Муж/Жена" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Да. Муж/Жена</span>
               </div>
-              <div class="quiz-option" data-value="Попали в реестр контролируемых лиц" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Попали в реестр контролируемых лиц</span>
+              <div class="quiz-option" data-value="Да. Родители" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Да. Родители</span>
               </div>
-              <div class="quiz-option" data-value="Получение РВП" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Получение РВП</span>
+              <div class="quiz-option" data-value="Да. Другие родственники" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Да. Другие родственники</span>
               </div>
-              <div class="quiz-option" data-value="Вопрос патента" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Вопрос патента</span>
-              </div>
-              <div class="quiz-option" data-value="Получение ВНЖ" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Получение ВНЖ</span>
-              </div>
-              <div class="quiz-option" data-value="Временная регистрация" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Временная регистрация</span>
-              </div>
-              <div class="quiz-option" data-value="Обжалование депортации/выдворения" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Обжалование депортации/выдворения</span>
-              </div>
-              <div class="quiz-option" data-value="Продление миграционной карты" onclick="selectOption(this, 3)">
-                <span class="quiz-option-text">Продление миграционной карты</span>
+              <div class="quiz-option" data-value="Нет" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Нет</span>
               </div>
             </div>
             <div class="quiz-buttons">
@@ -233,7 +206,53 @@
 
           <div class="quiz-step" data-step="4">
             <div class="quiz-step-header">
-              <span class="step-indicator">Шаг <span>4</span> из 4</span>
+              <span class="step-indicator">Шаг <span>4</span> из 5</span>
+            </div>
+            <h3 class="quiz-question">
+              Какой вид документов или помощь Вам нужна?
+            </h3>
+            <p class="quiz-subtitle">
+              Выберите услугу из списка
+            </p>
+            <div class="quiz-options">
+              <div class="quiz-option" data-value="Получение гражданства РФ" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Получение гражданства РФ</span>
+              </div>
+              <div class="quiz-option" data-value="Попали в реестр контролируемых лиц" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Попали в реестр контролируемых лиц</span>
+              </div>
+              <div class="quiz-option" data-value="Получение РВП" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Получение РВП</span>
+              </div>
+              <div class="quiz-option" data-value="Вопрос патента" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Вопрос патента</span>
+              </div>
+              <div class="quiz-option" data-value="Получение ВНЖ" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Получение ВНЖ</span>
+              </div>
+              <div class="quiz-option" data-value="Временная регистрация" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Временная регистрация</span>
+              </div>
+              <div class="quiz-option" data-value="Обжалование депортации/выдворения" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Обжалование депортации/выдворения</span>
+              </div>
+              <div class="quiz-option" data-value="Продление миграционной карты" onclick="selectOption(this, 4)">
+                <span class="quiz-option-text">Продление миграционной карты</span>
+              </div>
+            </div>
+            <div class="quiz-buttons">
+              <button class="quiz-btn quiz-btn-prev" onclick="prevStep()">
+                ← Назад
+              </button>
+              <button class="quiz-btn quiz-btn-next" id="btn4" onclick="nextStep()" disabled>
+                Далее →
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="5">
+            <div class="quiz-step-header">
+              <span class="step-indicator">Шаг <span>5</span> из 5</span>
             </div>
             <h3 class="quiz-question">
               Записаться на БЕСПЛАТНУЮ консультацию юриста
@@ -250,7 +269,10 @@
               Нажимая кнопку, вы соглашаетесь на обработку персональных данных
             </p>
             <div class="quiz-buttons quiz-buttons--start">
-              <button class="quiz-btn quiz-btn-submit" id="btn4" onclick="submitQuiz()" disabled>
+              <button class="quiz-btn quiz-btn-prev" onclick="prevStep()">
+                ← Назад
+              </button>
+              <button class="quiz-btn quiz-btn-submit" id="btn5" onclick="submitQuiz()" disabled>
                 Получить консультацию
               </button>
             </div>
