@@ -714,6 +714,12 @@ body {
   font-size: 0.8125rem;
 }
 
+.footer-info {
+  max-width: 40rem;
+  margin: 0 auto;
+  margin-bottom: 1.5rem;
+}
+
 @media (max-width: 64rem) {
   .hero-grid {
     display: flex;
