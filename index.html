@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Гражданство РФ за 3 дня — РосМиграция</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/index.css" />
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container">
+      📞 Бесплатная консультация:
+      <a href="tel:88001234567">8 (800) 123-45-67</a> (круглосуточно)
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">Рос<span>Миграция</span></div>
+        <div class="header-contacts">
+          <a href="tel:88001234567" class="phone-link">8 (800) 123-45-67</a>
+          <button class="header-btn" onclick="scrollToQuiz()">
+            Оставить заявку
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">Оформление за 5 дня</div>
+          <h1 class="hero-title">
+            Хотите получить РВП, ВНЖ, <span class="highlight">Гражданство РФ?</span> <br /> Мы поможем Вам!
+          </h1>
+          <p class="hero-subtitle">
+            Помогаем оформить РВП, ВНЖ и гражданство России с 2009 года. 30
+            000+ успешных кейсов.
+          </p>
+
+          <div class="trust-badges">
+            <div class="trust-badge speed">Срок от 5 дней</div>
+            <div class="trust-badge guarantee">Гарантия результата</div>
+          </div>
+
+          <div class="hero-cta">
+            <button class="btn-primary" onclick="scrollToQuiz()">
+              Пройти тест за 1 минуту
+            </button>
+            <a class="btn-secondary" href="tel:78001234567">Позвонить</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <img class="hero-visual__picture" src="./images/man.png" alt="" />
+          <div class="hero-card">
+            <div class="card-header">
+              <div class="avatar-group">
+                <div class="avatar">АК</div>
+                <div class="avatar">МР</div>
+                <div class="avatar">СВ</div>
+              </div>
+              <div>
+                <div class="card-title">30 000+ клиентов</div>
+                <div class="card-subtitle">Уже получили документы</div>
+              </div>
+            </div>
+            <div class="testimonial">
+              "Получил гражданство за 5 дней! Всё оформили без моего
+              присутствия. Рекомендую!"
+              <div class="testimonial-author">Артём К., г. Москва</div>
+              <div class="testimonial-rating">★★★★★</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">15</div>
+          <div class="stat-label">лет на рынке</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">30K+</div>
+          <div class="stat-label">успешных кейсов</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">одобрений</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">дня минимум</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quiz-section" id="quiz">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Быстрый тест</div>
+        <h2 class="section-title">Записаться БЕСПЛАТНО</h2>
+        <p class="section-subtitle">
+          Ответьте на 3 вопроса и получите бесплатную консультацию
+        </p>
+      </div>
+
+      <div class="quiz-container">
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar" id="progressBar" style="width: 25%"></div>
+        </div>
+        <div class="quiz-content">
+          <div class="quiz-step active" data-step="1">
+            <div class="quiz-step-header">
+              <span class="step-indicator">Шаг <span>1</span> из 4</span>
+            </div>
+            <h3 class="quiz-question">
+              Гражданином какой страны вы являетесь?
+            </h3>
+            <p class="quiz-subtitle">
+              Введите вашу страну и выберите регион
+            </p>
+            <label class="quiz-label">Страна гражданства</label>
+            <input type="text" class="quiz-input" id="userCountry"
+              placeholder="Например: Узбекистан, Таджикистан, Казахстан..." oninput="checkStep1()" />
+            <label class="quiz-label quiz-label--top">В каком регионе вы находитесь?</label>
+            <div class="quiz-options quiz-options--single">
+              <div class="quiz-option" data-value="Москва" onclick="selectOption(this, 1)">
+                <span class="quiz-option-text">Москва</span>
+              </div>
+              <div class="quiz-option" data-value="Московская область" onclick="selectOption(this, 1)">
+                <span class="quiz-option-text">Московская область</span>
+              </div>
+              <div class="quiz-option" data-value="Другой регион" onclick="selectOption(this, 1)">
+                <span class="quiz-option-text">Другой регион</span>
+              </div>
+            </div>
+            <div class="quiz-buttons">
+              <button class="quiz-btn quiz-btn-next" id="btn1" onclick="nextStep()" disabled>
+                Далее →
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="2">
+            <div class="quiz-step-header">
+              <span class="step-indicator">Шаг <span>2</span> из 4</span>
+            </div>
+            <h3 class="quiz-question">
+              Есть ли у вас близкие родственники, являющиеся гражданами РФ?
+            </h3>
+            <p class="quiz-subtitle">
+              Это поможет нам подобрать оптимальную программу
+            </p>
+            <div class="quiz-options">
+              <div class="quiz-option" data-value="Да. Муж/Жена" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Да. Муж/Жена</span>
+              </div>
+              <div class="quiz-option" data-value="Да. Родители" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Да. Родители</span>
+              </div>
+              <div class="quiz-option" data-value="Да. Другие родственники" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Да. Другие родственники</span>
+              </div>
+              <div class="quiz-option" data-value="Нет" onclick="selectOption(this, 2)">
+                <span class="quiz-option-text">Нет</span>
+              </div>
+            </div>
+            <div class="quiz-buttons">
+              <button class="quiz-btn quiz-btn-prev" onclick="prevStep()">
+                ← Назад
+              </button>
+              <button class="quiz-btn quiz-btn-next" id="btn2" onclick="nextStep()" disabled>
+                Далее →
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="3">
+            <div class="quiz-step-header">
+              <span class="step-indicator">Шаг <span>3</span> из 4</span>
+            </div>
+            <h3 class="quiz-question">
+              Какой вид документов или помощь Вам нужна?
+            </h3>
+            <p class="quiz-subtitle">
+              Выберите услугу из списка
+            </p>
+            <div class="quiz-options">
+              <div class="quiz-option" data-value="Получение гражданства РФ" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Получение гражданства РФ</span>
+              </div>
+              <div class="quiz-option" data-value="Попали в реестр контролируемых лиц" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Попали в реестр контролируемых лиц</span>
+              </div>
+              <div class="quiz-option" data-value="Получение РВП" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Получение РВП</span>
+              </div>
+              <div class="quiz-option" data-value="Вопрос патента" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Вопрос патента</span>
+              </div>
+              <div class="quiz-option" data-value="Получение ВНЖ" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Получение ВНЖ</span>
+              </div>
+              <div class="quiz-option" data-value="Временная регистрация" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Временная регистрация</span>
+              </div>
+              <div class="quiz-option" data-value="Обжалование депортации/выдворения" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Обжалование депортации/выдворения</span>
+              </div>
+              <div class="quiz-option" data-value="Продление миграционной карты" onclick="selectOption(this, 3)">
+                <span class="quiz-option-text">Продление миграционной карты</span>
+              </div>
+            </div>
+            <div class="quiz-buttons">
+              <button class="quiz-btn quiz-btn-prev" onclick="prevStep()">
+                ← Назад
+              </button>
+              <button class="quiz-btn quiz-btn-next" id="btn3" onclick="nextStep()" disabled>
+                Далее →
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="4">
+            <div class="quiz-step-header">
+              <span class="step-indicator">Шаг <span>4</span> из 4</span>
+            </div>
+            <h3 class="quiz-question">
+              Записаться на БЕСПЛАТНУЮ консультацию юриста
+            </h3>
+            <div class="quiz-form-box">
+              <label class="quiz-label">Ваше имя</label>
+              <input type="text" class="quiz-input quiz-input--white" id="userName" placeholder="Введите ваше имя"
+                oninput="checkForm()" />
+              <label class="quiz-label quiz-label--top">Ваш телефон</label>
+              <input type="tel" class="quiz-input quiz-input--white" id="userPhone" placeholder="+7 (___) ___-__-__"
+                oninput="formatPhone(this); checkForm()" />
+            </div>
+            <p class="quiz-consent">
+              Нажимая кнопку, вы соглашаетесь на обработку персональных данных
+            </p>
+            <div class="quiz-buttons quiz-buttons--start">
+              <button class="quiz-btn quiz-btn-submit" id="btn4" onclick="submitQuiz()" disabled>
+                Получить консультацию
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="error-step-location">
+            <div class="quiz-success">
+              <div class="success-icon success-icon--error">✕</div>
+              <h3 class="success-title">
+                К сожалению, мы не можем Вам помочь!
+              </h3>
+              <p class="success-text">
+                Мы работаем только в Москве и Московской области. В других
+                регионах услуги не оказываем.
+              </p>
+              <button class="quiz-btn quiz-btn-next" onclick="restartQuiz()" style="background: #ff5640">
+                Начать заново
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="error-step-registration">
+            <div class="quiz-success">
+              <div class="success-icon success-icon--error">✕</div>
+              <h3 class="success-title">
+                К сожалению, мы не можем Вам помочь!
+              </h3>
+              <p class="success-text">
+                Извините, Наше Агенство не может помочь Вам в этом вопросе!
+                Обращайтесь в территориальный отдел по вопросам миграции!
+              </p>
+              <button class="quiz-btn quiz-btn-next" onclick="restartQuiz()" style="background: #ff5640">
+                Начать заново
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-step" data-step="final-step">
+            <div class="quiz-success">
+              <div class="success-icon">✓</div>
+              <h3 class="success-title">
+                Спасибо, мы свяжемся с вами в течении 30 минут!
+              </h3>
+              <p class="success-text">Мы уже изучаем ваш случай</p>
+              <div class="success-time success-time--success">
+                ⏱ Перезвоним через 30 минут
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">Рос<span>Миграция</span></div>
+          <p class="footer-text">
+            Хотите получить РВП, ВНЖ, Гражданство РФ? <br /> Мы поможем Вам!
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Контакты</div>
+          <ul class="footer-links">
+            <li><a href="tel:88001234567">8 (800) 123-45-67</a></li>
+            <li>
+              <a href="mailto:info@rosmigration.ru">info@rosmigration.ru</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 РосМиграция. ООО "ОВАЛ" ИНН: 6319215026 / ОГРН: 1176313011544.
+        Мы не являемся миграционным отделом.
+      </div>
+    </div>
+  </footer>
+  <script src="./src/index.js"></script>
+</body>
+</html>
