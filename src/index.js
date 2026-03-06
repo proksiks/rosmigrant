@@ -212,7 +212,14 @@ async function submitQuiz() {
   quizData.phone = phoneInput.value;
   quizData.country = document.getElementById("userCountry").value;
 
-  const success = await sendToTelegram(quizData);
+  // Отправляем в Telegram
+  const tgSuccess = await sendToTelegram(quizData);
+
+  // Отправляем в Bitrix24
+  const bitrixSuccess = await sendToBitrix(quizData);
+
+  // Проверяем результат (хотя бы одна отправка должна быть успешной)
+  const success = tgSuccess || bitrixSuccess;
 
   isSubmitting = false;
 
@@ -238,19 +245,30 @@ async function submitQuiz() {
   }
 }
 
+// Конфигурация Telegram
+const TG_TOKEN = "8648924298:AAHjwgHrdtxU3oj7NFS0Mh0R-PWS7ryr92I";
+const TG_CHAT_ID = "676454572";
+
+// Конфигурация Bitrix24
+const BITRIX_WEBHOOK = "https://goldenp.bitrix24.ru/rest/8/adtdvivh0b85apws/";
+const BITRIX_FIELDS = {
+  NAME: "UF_CRM_1772784991336", // Имя
+  PHONE: "UF_CRM_1772785020200", // Телефон
+  QUIZ_ANSWERS: "UF_CRM_1772785067", // Ответы квиза
+};
+const BITRIX_CATEGORY_ID = 2;
+
 async function sendToTelegram(data) {
-  const BOT_TOKEN = "YOUR_BOT_TOKEN";
-  const CHAT_ID = "YOUR_CHAT_ID";
   const message = `🆕 <b>Новая заявка с сайта!</b>\n\n👤 <b>Имя:</b> ${data.name}\n📞 <b>Телефон:</b> ${data.phone}\n🌍 <b>Гражданство:</b> ${data.step1 || "-"}\n📍 <b>Регион:</b> ${data.step2 || "-"}\n👨‍👩‍👧 <b>Родственники:</b> ${data.step3 || "-"}\n📄 <b>Услуга:</b> ${data.step4 || "-"}\n\n⏱ Перезвонить в течение 30 минут!`;
 
   try {
     const response = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
+      `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          chat_id: CHAT_ID,
+          chat_id: TG_CHAT_ID,
           text: message,
           parse_mode: "HTML",
         }),
@@ -267,6 +285,47 @@ async function sendToTelegram(data) {
     return true;
   } catch (e) {
     console.error("Telegram error:", e);
+    return false;
+  }
+}
+
+async function sendToBitrix(data) {
+  // Формируем ответы квиза в текстовом виде
+  const quizAnswers = [
+    `Страна гражданства: ${data.step1 || "-"}`,
+    `Регион: ${data.step2 || "-"}`,
+    `Родственники: ${data.step3 || "-"}`,
+    `Услуга: ${data.step4 || "-"}`,
+  ].join("\n");
+
+  const dealData = {
+    fields: {
+      TITLE: `Заявка с сайта: ${data.name}`,
+      [BITRIX_FIELDS.NAME]: data.name,
+      [BITRIX_FIELDS.PHONE]: [{ VALUE: data.phone, VALUE_TYPE: "WORK" }],
+      [BITRIX_FIELDS.QUIZ_ANSWERS]: quizAnswers,
+      CATEGORY_ID: BITRIX_CATEGORY_ID,
+    },
+  };
+
+  try {
+    const response = await fetch(`${BITRIX_WEBHOOK}crm.deal.add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dealData),
+    });
+
+    const result = await response.json();
+
+    if (!result.result) {
+      console.error("Bitrix24 API error:", result);
+      throw new Error(result.error_description || "Failed to create deal");
+    }
+
+    console.log("Deal created successfully, ID:", result.result);
+    return true;
+  } catch (e) {
+    console.error("Bitrix24 error:", e);
     return false;
   }
 }
